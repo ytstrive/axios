@@ -1,3 +1,4 @@
+### Axios分析
 #### 构造函数
 
 ```javascript
@@ -264,7 +265,7 @@ var config = {
 //request拦截成功回调
 function requestOnFulfilled(config) {
   console.log('requestOnFulfilled', config);
-  return config;
+  return {...config,status:'requestOnFulfilled'};
 }
 //request拦截失败回调
 function requestOnRejected(reason) {
@@ -307,7 +308,7 @@ while (chain.length) {
 至此我们已经对 while、promise.then 处理流程有所了解,但需要思考以下几个问题:
 
 - 为什么循环体内 promise 需要重新赋值`promise = promise.then(chain.shift(), chain.shift());`而不可以使用`promise.then(chain.shift(), chain.shift());`
-- 把`var promise = Promise.resolve(config);`修改为`var promise = Promise.reject(config);`;requestOnRejected 函数内的`return Promise.reject(reason);`直接返回 `return reason;`结果会如何.
+- 把`var promise = Promise.resolve(config);`修改为`var promise = Promise.reject(config);`requestOnRejected 函数内的`return Promise.reject(reason);`直接返回 `return reason;`结果会如何.
 
 > config 配置项如何传递到拦截器内
 
